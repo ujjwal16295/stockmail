@@ -4,6 +4,7 @@ from firebase_admin import firestore
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 
 
 # add firebase config here
