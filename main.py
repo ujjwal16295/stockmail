@@ -38,7 +38,7 @@ db=firestore.client()
 collection_name = "stocks"
 
 
-query = db.collection(collection_name).where("sector", "==", "IT - Software")
+query = db.collection(collection_name)
 docs = query.stream()
 
 docs_list = [doc.to_dict() for doc in docs]
