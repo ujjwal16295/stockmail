@@ -139,18 +139,36 @@ subject = "Stock Recommendation "
 body = ""
 
 
-for ind, final_stock in enumerate(final_array):
-    industry_pe_change = round(((final_stock["industry_pe"]-final_stock["current_pe"])/final_stock["current_pe"])*100,2)
-    median_pe_change = round(final_stock["medianPe"] - final_stock["current_pe"],2)
-    current_price = final_stock["currentPrice"]
-    current_roe = final_stock["roe"]
-    current_roce  = final_stock["roce"]
-    current_cp10 = final_stock["cp10"]
-    name = final_stock["name"]
-    body = body + f"{ind}.{name} \nchange from industry pe is:- {industry_pe_change}% \nchange from median pe is :- {median_pe_change} \ncurrent roe is :- {current_roe} \ncurrent roce is :- {current_roce} \ncurrent cp10 is:- {current_cp10}\n\n"
+sector_print = {}
+rank_list = {}
+
+for inde,fina_stock in enumerate(final_array):
+    sector = fina_stock["sector"]  # Store the sector key for reuse
+
+    # Initialize the sector if it doesn't exist in sector_print
+    if sector not in sector_print:
+        sector_print[sector] = []
+        rank_list[sector] = []
+
+    # Add the stock data and index to the respective lists
+    sector_print[sector].append(fina_stock)
+    rank_list[sector].append(inde)
 
 
-print(body)
+    # body = body + f"{ind}.{name} \nchange from industry pe is:- {industry_pe_change}% \nchange from median pe is :- {median_pe_change} \ncurrent roe is :- {current_roe} \ncurrent roce is :- {current_roce} \ncurrent cp10 is:- {current_cp10}\n\n"
+
+for key, value in sector_print.items():
+    body = body + f"{key}\n"
+    for ind,final_stock in enumerate(value):
+        industry_pe_change = round(((final_stock["industry_pe"] - final_stock["current_pe"]) / final_stock["current_pe"]) * 100, 2)
+        median_pe_change = round(final_stock["medianPe"] - final_stock["current_pe"], 2)
+        current_price = final_stock["currentPrice"]
+        current_roe = final_stock["roe"]
+        current_roce = final_stock["roce"]
+        current_cp10 = final_stock["cp10"]
+        name = final_stock["name"]
+
+        body = body + f"{ind+1}.{name} \nrank:- {rank_list[key][ind]} \nchange from industry pe is:- {industry_pe_change}% \nchange from median pe is :- {median_pe_change} \ncurrent roe is :- {current_roe} \ncurrent roce is :- {current_roce} \ncurrent cp10 is:- {current_cp10}\n\n"
 
 
 
