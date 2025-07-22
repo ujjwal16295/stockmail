@@ -160,8 +160,15 @@ for inde,fina_stock in enumerate(final_array):
 for key, value in sector_print.items():
     body = body + f"{key}\n"
     for ind,final_stock in enumerate(value):
-        industry_pe_change = round(((final_stock["industry_pe"] - final_stock["current_pe"]) / final_stock["current_pe"]) * 100, 2)
-        median_pe_change = round(final_stock["medianPe"] - final_stock["current_pe"], 2)
+        if final_stock["current_pe"] != 0:
+            industry_pe_change = round(
+                ((final_stock["industry_pe"] - final_stock["current_pe"]) / final_stock["current_pe"]) * 100, 2)
+        else:
+            industry_pe_change = None  # or 0, or float('inf'), based on your use case
+        try:
+            median_pe_change = round(float(final_stock["medianPe"]) - float(final_stock["current_pe"]), 2)
+        except (ValueError, TypeError):
+            median_pe_change = None  # or 0, or handle it appropriately
         current_price = final_stock["currentPrice"]
         current_roe = final_stock["roe"]
         current_roce = final_stock["roce"]
